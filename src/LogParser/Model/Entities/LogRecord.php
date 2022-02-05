@@ -33,7 +33,7 @@ Class LogRecord implements Interfaces\LogRecord, Interfaces\StatisticsProvider {
         $pattern = '/(.+)\s(.+)/';
         // check if it differs from the format with which we can work
         if (!preg_match($pattern, $logLine, $matches)) {
-            throw new \InvalidArgumentException('Log line mismatch');
+            throw new \InvalidArgumentException('Log line mismatch:'.$logLine);
         }
         return [
             'id' => $matches[1],
@@ -83,7 +83,7 @@ Class LogRecord implements Interfaces\LogRecord, Interfaces\StatisticsProvider {
 
     public function addAdditionalRecord ($logLine) {
         $parseResult = self::parseStringLogLine($logLine);
-        $this->addIpOccurrence($parseResult['id']);
+        $this->addIpOccurrence($parseResult['ip']);
     }
 
     public static function getIdFromLogLine ($logLine) {

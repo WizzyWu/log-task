@@ -2,7 +2,7 @@
 namespace LogParser\Readers;
 
 use LogParser\Interfaces;
-use LogParser\Model\LogFileIterator;
+use LogParser\Readers\LogFileIterator;
 
 Class LogReader implements Interfaces\LogReader {
     protected $file;

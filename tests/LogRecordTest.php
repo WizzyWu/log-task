@@ -52,8 +52,10 @@ class LogRecordTest extends TestCase
         $LogRecord = new LogRecord('/help_page/1 126.318.035.038');
         $LogRecord->addAdditionalRecord('/help_page/1 126.318.035.038');
         $LogRecord->addAdditionalRecord('/help_page/1 126.318.035.039');
+        $LogRecord->addAdditionalRecord('/help_page/1 126.318.035.040');
+        $LogRecord->addAdditionalRecord('/help_page/1 126.318.035.039');
         $this->assertEquals(
-            '/help_page/1 3 visits 2 unique',
+            '/help_page/1 5 visits 3 unique',
             $LogRecord->getStatistics(),
             "Incorrect statistics generation"
         );

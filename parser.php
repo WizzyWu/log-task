@@ -1,17 +1,18 @@
 <?php
-require dirname(__FILE__, 2) . DIRECTORY_SEPARATOR . "vendor" . DIRECTORY_SEPARATOR . "autoload.php";
+require dirname(__FILE__, 1) . DIRECTORY_SEPARATOR . "vendor" . DIRECTORY_SEPARATOR . "autoload.php";
 
 use LogParser\Readers\LogReader;
 
 $filename = $argv[1];
-if (!$filename) {
-    $filename = __DIR__ . DIRECTORY_SEPARATOR . 'webserver.log';
+
+if (empty($filename)) {
+    echo "\nYou must specify a file for the data parse. Exemple: >php parser.php 'logfile.log";
 }
 
 try {
     $logReader = new LogReader($filename);
 } catch (\Exception $e) {
-    echo '\n'.$e->getMessage();
+    echo "\nAn error occurred while opening the file $filename";
     die;
 }
 $logStorage = new LogParser\Model\LogStorage();

@@ -1,5 +1,5 @@
 <?php
-namespace LogParser\Model;
+namespace LogParser\Readers;
 
 class LogFileIterator implements \Iterator
 {

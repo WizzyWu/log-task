@@ -21,9 +21,9 @@ Class LogParser {
     }
 
     public function parseLogLine ($logLine) {
-        $logLineId = LogRecord::getIdFromLogLine($logLine);
-        // if a record with the same ID already exists in the storage
         try {
+            $logLineId = LogRecord::getIdFromLogLine($logLine);
+            // if a record with the same ID already exists in the storage
             if ($this->logStorage->checkIfIdExists($logLineId)) {
                 $logRecord = $this->logStorage->getLogRecordById($logLineId);
                 $logRecord->addAdditionalRecord($logLine);
@@ -49,7 +49,7 @@ Class LogParser {
 
     public function showErrorsLis () {
         if (count($this->errorsList) > 0) {
-            echo '|||| Errors list:' . implode(' | ', $this->errorsList);
+            echo "\n\nErrors list:\n" . implode("\n", $this->errorsList);
         }
     }
 }
