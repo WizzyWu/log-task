@@ -2,9 +2,10 @@ Contents
 * EN Section
 * RU Section
 
-##EN Section
+## EN Section
 
-###Installation and launch
+### Installation and launch
+
 Run composer
 ```
 >composer install
@@ -21,7 +22,8 @@ Running Tests
 ```
 >vendor\bin\phpunit tests
 ```
-###Architecture and design
+### Architecture and design
+
 I decided to issue the result of solving the test problem in the form of a simple CLI application in php. I approached the solution in terms of application architecture. I considered that an important point for the architecture of this functionality is its extensibility. Example: Today we read from a .log file and display it on the screen, but tomorrow we may need to read from an .xml file and send it by email.
 
 The source code of the files is located:
@@ -48,14 +50,15 @@ foreach ($this->reader as $logLine) {
   $report = $logParser->provideOccurrencesSortedReport(new LogParser\ReportProviders\ReportAsStringProvider());
   ```
   The contents of the $report variable:
-* ```
+  ```
     /about/2 90 visits 22 unique, /contact 89 visits 23 unique, /index 82 visits 23 unique, /about 81 visits 21 unique, /help_page/1 80 visits 23 unique, /home 78 visits 23 unique
   ```
 * **Model** - work with data. It consists of the LogReport.php file, which works with the minimal entities of our parser - log lines. And the file LogStorage.php - entity store
 
 I want to dwell on the application model in more detail.
 
-##Model and TDD
+## Model and TDD
+
 The model is the heart of this application. I started with it when creating the application. Used TDD rapid development technique. It was a cyclical process of stages:
 * Test
 * Implementation
@@ -66,7 +69,8 @@ The tests are in the folder
 tests
 ```
 
-###LogRecord.php
+### LogRecord.php
+
 I started with the LogRecord.php entity
 
 This entity stores a log for each link.
@@ -96,7 +100,8 @@ The stages of entity development can be traced by tests:
 4. testGetStatistics - test for getting statistics. This test has an interesting story. When I sent the code, it seemed strange to me that the number of unique occurrences is always 2. But in a hurry I decided that this is a feature of the dataset. In the morning when I started writing this guide, I decided to rewrite the test and check it. I changed it so that 3 unique occurrences are expected and it gave an error. I found and fixed the error, which consisted in: When adding new entries there was a typo and id was used instead of ip.
 5. testGetIdFromLogLine - a test of a static method that parses a log line and returns an identifier. This method is used to check if an entity with the same id already exists or not.
 
-###LogStorage.php
+### LogStorage.php
+
 The class that is responsible for storing and sorting LogRecord entities. Implements the \IteratorAggregate interface.
 
 When designing the repository and managing entities, the task arose in tracking the uniqueness of entities. I thought about creating a factory that would keep track of existing entities and return them, or create new ones. But i didn't like this idea. It turns out that the storage functionality is duplicated and the responsibilities of the factory are mixed. It must both store and create.
@@ -114,7 +119,7 @@ Stages of class development by tests:
 
 In addition, there are 2 more methods that sort the set of entities either by the number of all occurrences, or by the number of unique occurrences.
 
-##Final, class LogParser.php
+## Final, class LogParser.php
 
 LogParser.php class - collects and uses all other classes that I wrote about above.
 Objects with the LogReader and LogStorage interfaces are passed to the constructor.
@@ -132,9 +137,10 @@ parser.php
 ```
 In addition, class contains error logging and the ability to output errors list.
 
-##RU Section
+## RU Section
 
-###Установка и запуск
+### Установка и запуск
+
 Запуск composer
 ```
 >composer install
@@ -152,7 +158,8 @@ In addition, class contains error logging and the ability to output errors list.
 ```
 >vendor\bin\phpunit tests
 ```
-###Архитектура и дизайн
+### Архитектура и дизайн
+
 Результат решения тестовой задачи я решил оформить в виде простого CLI приложение на php. Я подошел к решению с точки зрения архитектуры приложения. Посчитал что важным моментом для архитектуры этого функционала является его расширяемость. Сегодня мы считываем с .log файла и выводим на экран, но завтра нам может понадобиться, например, считывать с .xml файла и отправлять по email.
 
 Исходный код файлов находится по пути:
@@ -188,7 +195,8 @@ foreach ($this->reader as $logLine) {
 
 На модели приложения я хочу остановиться подробнее.
 
-##Model and TDD
+## Model and TDD
+
 Модель - сердце этого приложения. Я начал с неё при создании приложения. Использовал TDD технику быстрой разработки. Это был цикличный процесс из этапов:
 * Тест
 * Реализация
@@ -199,7 +207,8 @@ foreach ($this->reader as $logLine) {
 tests
 ```
 
-###LogRecord.php
+### LogRecord.php
+
 Начал я с сущности LogRecord.php
 
 В этой сущности хранится лог по каждой ссылке. 
@@ -229,7 +238,8 @@ Class LogRecord implements Interfaces\LogRecord, Interfaces\StatisticsProvider {
 4. testGetStatistics - тест получения статистики. С этим тестом получилась интересная история. Когда я отправлял код, мне показалось странным что количество уникальных вхождений всегда равно 2. Но в спешке решил что это особенность набора данных. С утра, когда я принялся писать это руководство, я решил переписать тест и проверить. Я его изменил таким образом чтобы ожидалось 3 уникальных вхождения и он выдал ошибку. Я исправил ошибку, которая заключалась в том что при добавлении нового вхождений была опечатка и вместо ip использовался id.
 5. testGetIdFromLogLine - тест статичного метода, что разбирает строку лога и возвращает идентификатор. Этот метод используется для проверки существует ли уже сущность с таким идентификатором или нет.
 
-###LogStorage.php
+### LogStorage.php
+
 Класс что отвечает за хранение и сортировку сущностей LogRecord. Реализует интерфейс \IteratorAggregate.
 
 При проектировании хранилища и управления сущностями появилась задача в отслеживании уникальности сущностей. Размышлял над созданием фабрики, что отслеживала бы существующие сущности и возвращала бы их, или создавала бы новые. Но эта идея не понравилась. Получается что функционал по хранению дублируется и смешиваются ответственности фабрики. Она должна и хранить и создавать.
@@ -247,7 +257,8 @@ Class LogRecord implements Interfaces\LogRecord, Interfaces\StatisticsProvider {
 
 Кроме этого есть еще 2 метода что сортируют набор сущностей либо по количеству всех вхождений, либо по количеству уникальных вхождений.
 
-##Финал, класс LogParser.php
+## Финал, класс LogParser.php
+
 Класс LogParser.php - собирает и использует все другие классы, о которых я писал выше. 
 В конструктор ему передаются объекты с интерфейсами LogReader и LogStorage.
 Тут же в конструкторе проходим по всем записям лога и парсим их на сущности, что добавляем в LogStorage.
