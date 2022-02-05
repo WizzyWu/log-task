@@ -11,11 +11,12 @@ Class LogParser {
 
     public function __construct(
         Interfaces\LogReader $reader,
-        Interfaces\LogStorage $logStorage) {
+        Interfaces\LogStorage $logStorage
+    ) {
         $this->reader = $reader;
         $this->logStorage = $logStorage;
 
-        foreach ($reader as $logLine) {
+        foreach ($this->reader as $logLine) {
             $this->parseLogLine($logLine);
         }
     }

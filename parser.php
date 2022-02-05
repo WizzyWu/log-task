@@ -6,7 +6,7 @@ use LogParser\Readers\LogReader;
 $filename = $argv[1];
 
 if (empty($filename)) {
-    echo "\nYou must specify a file for the data parse. Exemple: >php parser.php 'logfile.log";
+    echo "\nYou must specify a file for the data parse. Example: >php parser.php logfile.log";
 }
 
 try {
@@ -17,9 +17,9 @@ try {
 }
 $logStorage = new LogParser\Model\LogStorage();
 $logParser = new LogParser\LogParser($logReader, $logStorage);
-echo "\n\nOccurrencesSortedReport:";
+echo "\n\nOccurrences Sorted Report:";
 $logParser->provideOccurrencesSortedReport(new LogParser\ReportProviders\ReportProvider());
-echo "\n\nUniqueOccurrencesSortedReport:";
+echo "\n\nUnique Occurrences Sorted Report:";
 $logParser->provideUniqueOccurrencesSortedReport(new LogParser\ReportProviders\ReportProvider());
 echo "\n";
 $logParser->showErrorsLis();

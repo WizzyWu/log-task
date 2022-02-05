@@ -11,7 +11,7 @@ Class ReportAsStringProvider implements Interfaces\LogReportProvider
         $resultStringArray = [];
         /* @var $logRecord Interfaces\StatisticsProvider  */
         foreach ($logStorage as $logRecord) {
-            $resultStringArray.push($logRecord->getStatistics());
+            $resultStringArray[] = $logRecord->getStatistics();
         }
         return implode(', ', $resultStringArray);
     }
