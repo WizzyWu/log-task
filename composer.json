@@ -9,7 +9,8 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "LogParser\\Test\\": "tests/"
+            "LogParser\\Test\\": "tests/",
+            "LogParser\\IntegrationTest\\": "integration-tests/"
         }
     }
 }

@@ -18,9 +18,19 @@ The result of the program work:
 
 ![The result of the program work](doc-img/result.png)
 
-Running Tests
+### Running Tests:
+
+Running all tests.
+```
+>vendor\bin\phpunit
+```
+Running unit tests.
 ```
 >vendor\bin\phpunit tests
+```
+Running integration tests.
+```
+>vendor\bin\phpunit integration-tests
 ```
 ### Architecture and design
 
@@ -64,9 +74,14 @@ The model is the heart of this application. I started with it when creating the 
 * Implementation
 * Debugging
 
-The tests are in the folder
+The unit tests are in the folder
 ```
 tests
+```
+
+Integration tests are in the folder
+```
+integration-tests
 ```
 
 ### LogRecord.php
@@ -137,6 +152,20 @@ parser.php
 ```
 In addition, class contains error logging and the ability to output errors list.
 
+## Integration tests
+The integration test is used to test not isolated parts of the application, but entire modules. For our small application, we will be testing the behavior of the entire application.
+
+Integration tests of our application:
+```
+integration-tests/ApplicationTest.php
+```
+
+Stages of development of integration tests:
+* testRunWithoutFilename - testing the launch of the application without the specified file name. We expect RuntimeException 'SplFileObject::__construct(): Filename cannot be empty'.
+* testRunWithWrongFilename - testing launch with a non-existent file name. We expect RuntimeException 'SplFileObject::__construct(wrongname.log): failed to open stream: No such file or directory'.
+* testRunOccurrencesSorted - testing the output sorted by the number of occurrences. Compare with the expected output on the webserver.log file
+* testRunUniqueOccurrencesSorted - testing the output sorted by the number of unique occurrences. Compare with the expected output on the webserver.log file
+
 ## RU Section
 
 ### Установка и запуск
@@ -154,10 +183,21 @@ In addition, class contains error logging and the ability to output errors list.
 
 ![Результат работы программы](doc-img/result.png)
 
-Запуск тестов
+### Запуск тестов:
+
+Запуск  всех тестов.
+```
+>vendor\bin\phpunit
+```
+Запуск модульных тестов.
 ```
 >vendor\bin\phpunit tests
 ```
+Запуск интеграционных тестов.
+```
+>vendor\bin\phpunit integration-tests
+```
+
 ### Архитектура и дизайн
 
 Результат решения тестовой задачи я решил оформить в виде простого CLI приложение на php. Я подошел к решению с точки зрения архитектуры приложения. Посчитал что важным моментом для архитектуры этого функционала является его расширяемость. Сегодня мы считываем с .log файла и выводим на экран, но завтра нам может понадобиться, например, считывать с .xml файла и отправлять по email.
@@ -202,9 +242,13 @@ foreach ($this->reader as $logLine) {
 * Реализация
 * Отладка
 
-Тесты находятся в папке
+Модульнык тесты находятся в папке
 ```
 tests
+```
+Интеграционные тесты находятся в папке
+```
+integration-tests
 ```
 
 ### LogRecord.php
@@ -274,3 +318,17 @@ Class LogRecord implements Interfaces\LogRecord, Interfaces\StatisticsProvider {
 parser.php
 ```
 Кроме этого в этот класс добавлено логирование ошибок и возможность их вывода.
+
+## Интеграционные тесты
+Интеграционный тест служит для тестирования не изолированных частей приложения, а целых модулей. Для нашего тестового приложения мы будем тестировать поведение всего приложения.
+
+Интеграционные тесты нашего приложения:
+```
+integration-tests/ApplicationTest.php
+```
+
+Этапы разработки интеграционных тестов:
+* testRunWithoutFilename - тестируем запуск приложения без указанного имени файла. Ожидаем RuntimeException 'SplFileObject::__construct(): Filename cannot be empty'.
+* testRunWithWrongFilename - тестируем запуск с несуществующим именем файла. Ожидаем RuntimeException 'SplFileObject::__construct(wrongname.log): failed to open stream: No such file or directory'.
+* testRunOccurrencesSorted - тестируем вывод c сортировкой по количеству вхождений. Сравниваем с ожидаемым выводом на файле webserver.log
+* testRunUniqueOccurrencesSorted - тестируем вывод c сортировкой по количеству уникальных вхождений. Сравниваем с ожидаемым выводом на файле webserver.log

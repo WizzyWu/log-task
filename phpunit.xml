@@ -12,12 +12,11 @@
 
     <!-- Add any additional test suites you want to run here -->
     <testsuites>
-        <testsuite name="app">
+        <testsuite name="unit">
             <directory>./tests</directory>
         </testsuite>
-        <testsuite name="receipt">
-            <directory>./tests</directory>
-            <exclude>./tests/ReceiptItems.php</exclude>
+        <testsuite name="integration">
+            <directory>./integration-tests</directory>
         </testsuite>
     </testsuites>
 
